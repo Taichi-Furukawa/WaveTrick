@@ -1,0 +1,111 @@
+package com.wavetrick.game;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.wavetrick.game.MyScreenAdapter;
+import com.wavetrick.game.WavetrickGame;
+import com.wavetrick.game.GameScreen;
+
+
+
+public class MainMenuScreen extends MyScreenAdapter {
+    private static final String LOG_TAG = MainMenuScreen.class.getSimpleName();
+    OrthographicCamera uiCamera;
+    Viewport viewport;
+    SpriteBatch batch;
+    Vector3 touchPoint;
+    Texture title_img;
+    Texture start_img;
+    Sprite start;
+
+    Sprite title;
+    float alpha;
+
+
+    public MainMenuScreen(WavetrickGame game) {
+        super(game);
+
+        Gdx.app.log(LOG_TAG, "constractor");
+        title_img = new Texture(Gdx.files.internal("menu_assets/Funky_Tony_logo.png"));
+        start_img = new Texture(Gdx.files.internal("menu_assets/game_start-1.png"));
+
+        title = new Sprite(title_img);
+        start = new Sprite(start_img);
+
+        uiCamera = new OrthographicCamera();
+        uiCamera.setToOrtho(false, WavetrickGame.LOGICAL_WIDTH, WavetrickGame.LOGICAL_HEIGHT);
+        viewport = new FitViewport(WavetrickGame.LOGICAL_WIDTH, WavetrickGame.LOGICAL_HEIGHT, uiCamera);
+        batch = new SpriteBatch();
+        touchPoint = new Vector3();
+
+        title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2);
+        start.setPosition(0,0);
+        alpha = 0;
+        Gdx.app.log(LOG_TAG, "constractor exit");
+    }
+
+    public void update(float delta) {
+        alpha += 0.05f;
+        start.setAlpha(0.5f - 0.3f * (float) Math.sin(alpha));
+        if (Gdx.input.justTouched()) {
+            viewport.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
+            Rectangle playBounds = start.getBoundingRectangle();
+            if (playBounds.contains(touchPoint.x, touchPoint.y)) {
+                //game.setScreen(new GameScreen(game));
+                Gdx.app.log(LOG_TAG, "game start!");
+                return;
+            }
+        }
+    }
+
+
+    public void draw () {
+        GL20 gl = Gdx.gl;
+        gl.glClearColor(1, 1, 1, 1);
+        gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        uiCamera.update();
+        batch.setProjectionMatrix(uiCamera.combined);
+        batch.begin();
+        title.draw(batch);
+        start.draw(batch);
+
+        batch.end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        Gdx.app.log(LOG_TAG, "resize");
+        viewport.update(width, height);
+    }
+
+    @Override
+    public void render(float delta) {
+        update(delta);
+        draw();
+    }
+
+    @Override
+    public void hide() {
+        Gdx.app.log(LOG_TAG, "hide");
+        dispose();
+    }
+
+    @Override
+    public void dispose() {
+        Gdx.app.log(LOG_TAG, "dispose");
+        title_img.dispose();
+        batch.dispose();
+    }
+
+}
