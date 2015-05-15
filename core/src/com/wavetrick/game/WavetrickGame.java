@@ -16,9 +16,6 @@ public class WavetrickGame extends Game {
 	// 16:9
 	public static int LOGICAL_WIDTH = 1280;
 	public static int LOGICAL_HEIGHT = 680;
-	// 4:3
-	// public static int LOGICAL_WIDTH = 256;
-	// public static int LOGICAL_HEIGHT = 192;
 	private Screen nextScreen;
 
 	@Override

@@ -33,7 +33,7 @@ public class MainMenuScreen extends MyScreenAdapter {
     float alpha;
 
 
-    public MainMenuScreen(WavetrickGame game) {
+    public MainMenuScreen(WavetrickGame game) {//コンストラクタ
         super(game);
 
         Gdx.app.log(LOG_TAG, "constractor");
@@ -42,6 +42,7 @@ public class MainMenuScreen extends MyScreenAdapter {
 
         title = new Sprite(title_img);
         start = new Sprite(start_img);
+        title.setScale((float)1.5);
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, WavetrickGame.LOGICAL_WIDTH, WavetrickGame.LOGICAL_HEIGHT);
@@ -49,13 +50,13 @@ public class MainMenuScreen extends MyScreenAdapter {
         batch = new SpriteBatch();
         touchPoint = new Vector3();
 
-        title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2);
-        start.setPosition(0,0);
+        title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2-30);
+        start.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(start_img.getWidth()/2),30);
         alpha = 0;
         Gdx.app.log(LOG_TAG, "constractor exit");
     }
 
-    public void update(float delta) {
+    public void update(float delta) {//毎フレームごと，render->update 処理系
         alpha += 0.05f;
         start.setAlpha(0.5f - 0.3f * (float) Math.sin(alpha));
         if (Gdx.input.justTouched()) {
@@ -70,7 +71,7 @@ public class MainMenuScreen extends MyScreenAdapter {
     }
 
 
-    public void draw () {
+    public void draw () {//毎フレームごと，render->draw描画系
         GL20 gl = Gdx.gl;
         gl.glClearColor(1, 1, 1, 1);
         gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -84,27 +85,29 @@ public class MainMenuScreen extends MyScreenAdapter {
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int width, int height) {//可変のウィンドウサイズを定義
         Gdx.app.log(LOG_TAG, "resize");
         viewport.update(width, height);
     }
 
     @Override
-    public void render(float delta) {
+    public void render(float delta) {//毎フレームごとに呼ばれる．二つの関数に受け渡してるだけ
         update(delta);
         draw();
     }
 
     @Override
-    public void hide() {
+    public void hide() {//このScreenが閉じた時に呼ばれる
         Gdx.app.log(LOG_TAG, "hide");
         dispose();
     }
 
     @Override
-    public void dispose() {
+    public void dispose() {//このScreenが破棄された時に呼ばれる
         Gdx.app.log(LOG_TAG, "dispose");
+        //素材は全部破棄しとけ！！
         title_img.dispose();
+        start_img.dispose();
         batch.dispose();
     }
 
