@@ -164,12 +164,10 @@ public class GameScreen extends MyScreenAdapter {
 
         if(bg1_1.getX()<=-1&&isloop==true){
             isloop=false;
-            Gdx.app.log(LOG_TAG, "helloween!");
             bg1_2.setPosition(LOGICAL_WIDTH, bg1_1.getY());
         }
         if(bg1_2.getX()<=-1&&isloop==false){
             isloop=true;
-            Gdx.app.log(LOG_TAG, "hello!");
             bg1_1.setPosition(LOGICAL_WIDTH,bg1_1.getY());
         }
     }
@@ -191,7 +189,7 @@ public class GameScreen extends MyScreenAdapter {
         bg1_2.draw(batch);
         floor.draw(batch);
         anim = currentAnim();
-        batch.draw(anim.getKeyFrame(stateTime,loop),TONY_DEFAULT_WIDTH,TONY_DEFAULT_HEIGHT,150,200);
+        batch.draw(anim.getKeyFrame(stateTime,loop),TONY_DEFAULT_WIDTH,TONY_DEFAULT_HEIGHT,TONY_SIZE_WIDTH,TONY_SIZE_HEIGHT);
 
         if(state==1&&anim.isAnimationFinished(stateTime)){
             state = 2;
