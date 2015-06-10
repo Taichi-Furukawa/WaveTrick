@@ -27,9 +27,10 @@ public class MainMenuScreen extends MyScreenAdapter {
     Vector3 touchPoint;
     Texture title_img;
     Texture start_img;
+    Texture back_img;
     Sprite start;
-
     Sprite title;
+    Sprite back;
     float alpha;
 
 
@@ -39,10 +40,14 @@ public class MainMenuScreen extends MyScreenAdapter {
         Gdx.app.log(LOG_TAG, "constractor");
         title_img = new Texture(Gdx.files.internal("menu_assets/Funky_Tony_logo.png"));
         start_img = new Texture(Gdx.files.internal("menu_assets/game_start-1.png"));
+        back_img = new Texture(Gdx.files.internal("menu_assets/building2.png"));
 
         title = new Sprite(title_img);
         start = new Sprite(start_img);
+        back = new Sprite(back_img);
         title.setScale((float)1.5);
+        back.setScale((float)1.5);
+
 
         uiCamera = new OrthographicCamera();
         uiCamera.setToOrtho(false, WavetrickGame.LOGICAL_WIDTH, WavetrickGame.LOGICAL_HEIGHT);
@@ -50,8 +55,10 @@ public class MainMenuScreen extends MyScreenAdapter {
         batch = new SpriteBatch();
         touchPoint = new Vector3();
 
-        title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2-30);
+        title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2);
         start.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(start_img.getWidth()/2),30);
+        back.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(back_img.getWidth()/2),80);
+        back.setAlpha(0.2f);
         alpha = 0;
         Gdx.app.log(LOG_TAG, "constractor exit");
     }
@@ -63,8 +70,8 @@ public class MainMenuScreen extends MyScreenAdapter {
             viewport.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
             Rectangle playBounds = start.getBoundingRectangle();
             if (playBounds.contains(touchPoint.x, touchPoint.y)) {
-                //game.setScreen(new GameScreen(game));
                 Gdx.app.log(LOG_TAG, "game start!");
+                game.setScreen(new GameScreen(game));
                 return;
             }
         }
@@ -78,8 +85,10 @@ public class MainMenuScreen extends MyScreenAdapter {
         uiCamera.update();
         batch.setProjectionMatrix(uiCamera.combined);
         batch.begin();
+        back.draw(batch);
         title.draw(batch);
         start.draw(batch);
+
 
         batch.end();
     }
@@ -108,7 +117,9 @@ public class MainMenuScreen extends MyScreenAdapter {
         //素材は全部破棄しとけ！！
         title_img.dispose();
         start_img.dispose();
+        back_img.dispose();
         batch.dispose();
+
     }
 
 }
