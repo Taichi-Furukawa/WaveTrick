@@ -1,21 +1,15 @@
 package com.wavetrick.game;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.wavetrick.game.MyScreenAdapter;
-import com.wavetrick.game.WavetrickGame;
-import com.wavetrick.game.GameScreen;
 
 
 
@@ -57,10 +51,11 @@ public class MainMenuScreen extends MyScreenAdapter {
 
         title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2);
         start.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(start_img.getWidth()/2),30);
-        back.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(back_img.getWidth()/2),80);
+        back.setPosition((WavetrickGame.LOGICAL_WIDTH / 2) - (back_img.getWidth() / 2), 80);
         back.setAlpha(0.2f);
         alpha = 0;
         Gdx.app.log(LOG_TAG, "constractor exit");
+
     }
 
     public void update(float delta) {//毎フレームごと，render->update 処理系

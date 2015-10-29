@@ -14,8 +14,8 @@ import java.util.HashSet;
 public class WavetrickGame extends Game {
 	public static final String LOG_TAG = WavetrickGame.class.getSimpleName();
 	// 16:9
-	public static int LOGICAL_WIDTH = 1280;
-	public static int LOGICAL_HEIGHT = 680;
+	public static int LOGICAL_WIDTH = (1280*4)/3;
+	public static int LOGICAL_HEIGHT = (680*4)/3;
 	private Screen nextScreen;
 
 	@Override
