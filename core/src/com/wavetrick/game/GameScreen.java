@@ -9,10 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.badlogic.gdx.Input;
-
+import com.badlogic.gdx.audio.*;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,20 +28,15 @@ public class GameScreen extends MyScreenAdapter {
     public static int LOGICAL_WIDTH = WavetrickGame.LOGICAL_WIDTH;
     public static int LOGICAL_HEIGHT = WavetrickGame.LOGICAL_HEIGHT;
 
-    // ゲームの状態
-    enum GameState {
-        PLAY,
-        PAUSE,
-        GAMEOVER,
-    }
-
+    //gamemode
+    public static String gamemode;
     //スプライト座業系
     public static int FLOOR_DEFAULT_HEIGHT = -750;
     public static int TONY_DEFAULT_HEIGHT = 250;
     public static int TONY_DEFAULT_WIDTH = 150;
     public static int TONY_SIZE_WIDTH = 100;
     public static int TONY_SIZE_HEIGHT = 150;
-    public static int TONY_JUMP_HEIGHT = 250;
+    public static int TONY_JUMP_HEIGHT = 350;
     public static int EACH_SPEED = 6;
     public static int MAX_SPEED = EACH_SPEED*3;
 
@@ -60,8 +54,6 @@ public class GameScreen extends MyScreenAdapter {
 
     //animation
     private Animation stand;
-    private Animation run;
-    private Animation ride_on;
     private Animation riding;
     private Animation push_kick;
     private Animation jump;
@@ -78,6 +70,7 @@ public class GameScreen extends MyScreenAdapter {
     private Texture ride_Img;
     private Texture jump_ready_Img;
     private Texture jump_Img;
+    private Texture trick_Img;
 
     //SpriteBatch
     private SpriteBatch batch;
@@ -85,7 +78,9 @@ public class GameScreen extends MyScreenAdapter {
 
     //UISprite
     private int runDistance=0;
+    private int score = 0;
     BitmapFont goneLength;
+    BitmapFont scoreFont;
 
     //Sprite
     private BackgroundSprite bg_sky;
@@ -94,6 +89,7 @@ public class GameScreen extends MyScreenAdapter {
     private BackgroundSprite bg_front;
 
     private boolean isTopOfJump = true;
+    private boolean isTriked = false;
 
     //SpriteState
     private int state = 0;
@@ -106,9 +102,23 @@ public class GameScreen extends MyScreenAdapter {
     //audioThread
     RecodingThread recoThr;
 
-    public GameScreen(WavetrickGame game) {
+    //Trick_AnimationValue
+    private int justDown=0;
+
+
+    //sound
+    Sound kick_sound;
+    Sound landing_sound;
+    Sound plaining_sound;
+    Sound jump_sound;
+
+    public GameScreen(WavetrickGame game,String mode) {
         super(game);
         Gdx.app.log(LOG_TAG, "constractor");
+        //ゲームモード
+        gamemode = mode;
+
+        //カメラとビューポートの定義
         camera = new OrthographicCamera();
         camera.setToOrtho(false, LOGICAL_WIDTH, LOGICAL_HEIGHT);
         viewport = new FitViewport(LOGICAL_WIDTH, LOGICAL_HEIGHT, camera);
@@ -119,12 +129,12 @@ public class GameScreen extends MyScreenAdapter {
 
         //画像ファイルを読む
         fl1Img = new Texture(Gdx.files.internal("game_assets/Ground_pro.png"));
-
         push_Img = new Texture(Gdx.files.internal("game_assets/animations/push_animation.png"));
         stand_Img = new Texture(Gdx.files.internal("game_assets/animations/tony_stand.png"));
         ride_Img = new Texture(Gdx.files.internal("game_assets/animations/tony_ride.png"));
         jump_ready_Img = new Texture(Gdx.files.internal("game_assets/animations/tony_jump_ready.png"));
         jump_Img = new Texture(Gdx.files.internal("game_assets/animations/tony_jump_animation.png"));
+        trick_Img = new Texture(Gdx.files.internal("game_assets/animations/tony_flip.png"));
 
         //背景と床の定義
         bg_sky = new BackgroundSprite("game_assets/BackGround_sky.png",LOGICAL_WIDTH,LOGICAL_HEIGHT);
@@ -147,13 +157,20 @@ public class GameScreen extends MyScreenAdapter {
         split = new TextureRegion(jump_ready_Img).split(200, 230)[0];
         ready_to_jump = new Animation(1.0f, split[0]);
 
-        split = new TextureRegion(jump_Img).split(200, 230)[0];
+        split = new TextureRegion(jump_Img).split(200, 250)[0];
         jump = new Animation(0.25f, split[0], split[1], split[2]);
+
+        split = new TextureRegion(trick_Img).split(200, 250)[0];
+        trick = new Animation(0.1f, split[0], split[1], split[2],split[3],split[4],split[5]);
 
         batch = new SpriteBatch();
         uiBatch = new SpriteBatch();
-        goneLength = new BitmapFont();
-        goneLength.getData().setScale(5f,5f);
+        //U表示系
+        goneLength = new BitmapFont(Gdx.files.internal("font/hanmaru.fnt"));//走行距離
+        goneLength.getData().setScale(2f, 2f);
+
+        scoreFont = new BitmapFont(Gdx.files.internal("font/hanmaru.fnt"));
+        scoreFont.getData().setScale(2f, 2f);
         // ログ情報取得
         Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
@@ -164,6 +181,12 @@ public class GameScreen extends MyScreenAdapter {
             stage.add(new Vector2(i*fl1Img.getWidth(),FLOOR_DEFAULT_HEIGHT));
             floors.add(new Sprite(fl1Img));
         }
+
+        //sound
+        kick_sound = Gdx.audio.newSound(Gdx.files.internal("sound_assets/kick_sample.ogg"));
+        landing_sound = Gdx.audio.newSound(Gdx.files.internal("sound_assets/Landing_sample.ogg"));
+        plaining_sound = Gdx.audio.newSound(Gdx.files.internal("sound_assets/Plaining_sample.ogg"));
+        jump_sound = Gdx.audio.newSound(Gdx.files.internal("sound_assets/Jump_sample.ogg"));
 
     }
 
@@ -184,15 +207,21 @@ public class GameScreen extends MyScreenAdapter {
         }
 
     }
+    private void plus_speed(int add){
+        speed+=add;
+        if(speed>MAX_SPEED){
+            speed=MAX_SPEED;
+        }
+    }
 
     class StageCreation extends TimerTask{
         public void run(){
             int creationHeight = 0;
 
-            if(stage.get(stage.size()-1).y+fl1Img.getHeight()+TONY_JUMP_HEIGHT<RecodingThread.creation){
-                creationHeight = (int)(stage.get(stage.size()-1).y+fl1Img.getHeight()+TONY_JUMP_HEIGHT-TONY_SIZE_HEIGHT);
+            if(RecodingThread.creation-(stage.get(stage.size()-1).y+fl1Img.getHeight())>TONY_JUMP_HEIGHT){
+                creationHeight = ((int)(stage.get(stage.size()-1).y+fl1Img.getHeight())+(TONY_JUMP_HEIGHT-TONY_SIZE_HEIGHT));
 
-            }else if((Math.abs(stage.get(stage.size()-1).y+fl1Img.getHeight()-RecodingThread.creation)<TONY_SIZE_HEIGHT/5)){
+            }else if((Math.abs(stage.get(stage.size()-1).y+fl1Img.getHeight()-RecodingThread.creation)<TONY_SIZE_HEIGHT)){
                 creationHeight = (int)(stage.get(stage.size()-1).y+fl1Img.getHeight());
 
             }else{
@@ -261,10 +290,16 @@ public class GameScreen extends MyScreenAdapter {
     private void tony_jump(){
         check_collision();
         if (isTopOfJump) {
-            tony_dynamic_y += 15;
+            tony_dynamic_y += 20;
         }else {
-            tony_dynamic_y -= 12;
+            tony_dynamic_y -= 20;
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && isTopOfJump==true){
+            isTriked = true;
+            state = 6;
+        }
+
+
         if(tony_dynamic_y >= (under_the_point(tony_dynamic_x).getY()+fl1Img.getHeight()+TONY_JUMP_HEIGHT)){
             isTopOfJump = false;
         }
@@ -273,23 +308,51 @@ public class GameScreen extends MyScreenAdapter {
             tony_dynamic_y = (int)under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH).getY()+fl1Img.getHeight();
             state = 2;
             isTopOfJump = true;
-            sub_speed(EACH_SPEED-1);
+            if (justDown==0) {
+                Gdx.app.log(LOG_TAG, "zero");
+                sub_speed(EACH_SPEED - 1);
+            }
+            if (justDown==2) {
+                Gdx.app.log(LOG_TAG, "two");
+                plus_speed(1);
+            }
+            if (justDown==3) {
+                Gdx.app.log(LOG_TAG, "three");
+                plus_speed(2);
+            }
+            justDown = 0;
+            isTriked = false;
+            landing_sound.play();
         }
     }
 
     private void tony_fall(){
         check_collision();
-        tony_dynamic_y -= 12;
+        tony_dynamic_y -= 20;
 
         if (tony_dynamic_y <= under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH).getY()+fl1Img.getHeight()){
             tony_dynamic_y = (int)under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH).getY()+fl1Img.getHeight();
             state = 2;
+            if (justDown==0) {
+                Gdx.app.log(LOG_TAG, "zero");
+                sub_speed(EACH_SPEED - 1);
+            }
+            if (justDown==2) {
+                Gdx.app.log(LOG_TAG, "two");
+                plus_speed(1);
+            }
+            if (justDown==3) {
+                Gdx.app.log(LOG_TAG, "three");
+                plus_speed(2);
+            }
+            justDown = 0;
             isTopOfJump = true;
-            sub_speed(EACH_SPEED-1);
+            isTriked = false;
+            landing_sound.play();
         }
     }
     private void game_over(){
-        game.setScreen(new GameScreen(game));
+        game.setScreen(new ResultScreen(game,runDistance,score));
     }
     private void check_collision(){
         Sprite underSprite = under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH);
@@ -300,31 +363,56 @@ public class GameScreen extends MyScreenAdapter {
     }
 
     public void update(float delta) {//毎フレームごと，render->update 処理
+        if (state == 4 || state == 5 ||state == 0 || state == 6){
+            plaining_sound.pause();
+        }else{
+            plaining_sound.resume();
+        }
+
         stateTime += delta;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && state!=1 && state!=3 && state!=4) {//keyInputで操対応
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT) && state!=1 && state!=3 && state!=4 && state!=6) {//keyInputで操対応
             if(state == 0){
+
                 StageCreation stageTask = new StageCreation();
                 Timer timer = new Timer();
                 timer.schedule(stageTask,1000,500);
+                plaining_sound.loop();
             }
             state = 1;
-            if (speed < MAX_SPEED) {
-                speed+=EACH_SPEED;
-            }
+            plus_speed(EACH_SPEED);
+            kick_sound.play();
             stateTime = 0;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && state !=4 && state !=0){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) && state !=4 && state !=0 && state!=6){
             state = 3;
         }else if(!Gdx.input.isKeyPressed(Input.Keys.SPACE) && state == 3){
+            jump_sound.play();
             state = 4;
             stateTime = 0;
         }
-        if (state == 4){
+        if (state == 4 || state == 6){
             tony_jump();
         }
-        if(tony_dynamic_y > under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH).getY()+fl1Img.getHeight() && state != 4){
+        if(tony_dynamic_y > under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH).getY()+fl1Img.getHeight() && state != 4 && state != 6){
             state = 5;
             tony_fall();
+        }
+        if((state == 4 || state == 5 || state == 6) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN) && justDown==0){
+            int betweenLength = (int)(tony_dynamic_y - (under_the_point(tony_dynamic_x+TONY_SIZE_WIDTH).getY()+fl1Img.getHeight()));
+            if (betweenLength <= TONY_SIZE_HEIGHT+(TONY_SIZE_HEIGHT/2)){
+                justDown = 1;
+                if(betweenLength<=TONY_SIZE_HEIGHT){
+                    justDown = 2;
+                    if(betweenLength<=TONY_SIZE_HEIGHT/2){
+                        justDown = 3;
+                    }
+                }
+            }
+            if(isTriked==true){
+                score += justDown*2;
+            }else{
+                score +=justDown;
+            }
         }
         check_collision();
     }
@@ -342,6 +430,9 @@ public class GameScreen extends MyScreenAdapter {
             anim = ready_to_jump;
         } else if(state == 4 || state == 5) { //jumping or falling
             anim = jump;
+        } else if (state == 6){ //tricking
+            anim = trick;
+
         }
         return anim;
     }
@@ -378,6 +469,7 @@ public class GameScreen extends MyScreenAdapter {
         batch.end();
         uiBatch.begin();
         goneLength.draw(uiBatch, "" + runDistance + " m", 50, LOGICAL_HEIGHT - 50);
+        scoreFont.draw(uiBatch,""+score+"TP",LOGICAL_WIDTH-200,100);
         uiBatch.end();
     }
     @Override
@@ -404,5 +496,9 @@ public class GameScreen extends MyScreenAdapter {
         fl1Img.dispose();
         push_Img.dispose();
         stand_Img.dispose();
+        plaining_sound.dispose();
+        kick_sound.dispose();
+        jump_sound.dispose();
+        landing_sound.dispose();
     }
 }

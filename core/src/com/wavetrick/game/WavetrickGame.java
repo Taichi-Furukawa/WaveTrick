@@ -1,15 +1,8 @@
 package com.wavetrick.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.FPSLogger;
-import java.util.Set;
-import java.util.HashSet;
 
 public class WavetrickGame extends Game {
 	public static final String LOG_TAG = WavetrickGame.class.getSimpleName();

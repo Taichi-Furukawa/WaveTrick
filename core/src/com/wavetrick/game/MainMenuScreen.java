@@ -1,6 +1,8 @@
 package com.wavetrick.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,12 +22,16 @@ public class MainMenuScreen extends MyScreenAdapter {
     SpriteBatch batch;
     Vector3 touchPoint;
     Texture title_img;
-    Texture start_img;
+    Texture voicemode_img;
+    Texture musicmode_img;
     Texture back_img;
-    Sprite start;
+    Sprite voicemode;
+    Sprite musicmode;
     Sprite title;
     Sprite back;
+    Music bgm;
     float alpha;
+
 
 
     public MainMenuScreen(WavetrickGame game) {//コンストラクタ
@@ -33,11 +39,13 @@ public class MainMenuScreen extends MyScreenAdapter {
 
         Gdx.app.log(LOG_TAG, "constractor");
         title_img = new Texture(Gdx.files.internal("menu_assets/Funky_Tony_logo.png"));
-        start_img = new Texture(Gdx.files.internal("menu_assets/game_start-1.png"));
+        voicemode_img = new Texture(Gdx.files.internal("menu_assets/voicemode.png"));
+        musicmode_img = new Texture(Gdx.files.internal("menu_assets/musicmode.png"));
         back_img = new Texture(Gdx.files.internal("menu_assets/building2.png"));
 
         title = new Sprite(title_img);
-        start = new Sprite(start_img);
+        voicemode = new Sprite(voicemode_img);
+        musicmode = new Sprite(musicmode_img);
         back = new Sprite(back_img);
         title.setScale((float)1.5);
         back.setScale((float)1.5);
@@ -49,24 +57,40 @@ public class MainMenuScreen extends MyScreenAdapter {
         batch = new SpriteBatch();
         touchPoint = new Vector3();
 
-        title.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(title_img.getWidth()/2),WavetrickGame.LOGICAL_HEIGHT/2);
-        start.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(start_img.getWidth()/2),30);
+        title.setPosition((WavetrickGame.LOGICAL_WIDTH / 2) - (title_img.getWidth() / 2), WavetrickGame.LOGICAL_HEIGHT / 2);
+        voicemode.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(voicemode_img.getWidth()/2),200);
+        musicmode.setPosition((WavetrickGame.LOGICAL_WIDTH/2)-(musicmode_img.getWidth()/2),30);
         back.setPosition((WavetrickGame.LOGICAL_WIDTH / 2) - (back_img.getWidth() / 2), 80);
         back.setAlpha(0.2f);
         alpha = 0;
+
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("menu_sound/Menu-Tutorial.ogg"));
+        bgm.setLooping(true);
+        bgm.setVolume(2.0f);
+        bgm.play();
         Gdx.app.log(LOG_TAG, "constractor exit");
 
     }
 
     public void update(float delta) {//毎フレームごと，render->update 処理系
         alpha += 0.05f;
-        start.setAlpha(0.5f - 0.3f * (float) Math.sin(alpha));
+        voicemode.setAlpha(0.5f - 0.3f * (float) Math.sin(alpha));
+        musicmode.setAlpha(0.5f - 0.3f * (float) Math.sin(alpha));
         if (Gdx.input.justTouched()) {
             viewport.unproject(touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0));
-            Rectangle playBounds = start.getBoundingRectangle();
-            if (playBounds.contains(touchPoint.x, touchPoint.y)) {
-                Gdx.app.log(LOG_TAG, "game start!");
-                game.setScreen(new GameScreen(game));
+            Rectangle voicemodeBounds = voicemode.getBoundingRectangle();
+            Rectangle musicmodeBounds = musicmode.getBoundingRectangle();
+            if (voicemodeBounds.contains(touchPoint.x, touchPoint.y)) {
+                Gdx.app.log(LOG_TAG, "voice mode start!");
+                bgm.dispose();
+                game.setScreen(new GameScreen(game,"voice"));
+                return;
+            }
+
+            if(musicmodeBounds.contains(touchPoint.x,touchPoint.y)){
+                Gdx.app.log(LOG_TAG, "music mdoe start!");
+
+                game.setScreen(new FileChoiceScreen(game,bgm));
                 return;
             }
         }
@@ -82,7 +106,8 @@ public class MainMenuScreen extends MyScreenAdapter {
         batch.begin();
         back.draw(batch);
         title.draw(batch);
-        start.draw(batch);
+        musicmode.draw(batch);
+        voicemode.draw(batch);
 
 
         batch.end();
@@ -111,7 +136,8 @@ public class MainMenuScreen extends MyScreenAdapter {
         Gdx.app.log(LOG_TAG, "dispose");
         //素材は全部破棄しとけ！！
         title_img.dispose();
-        start_img.dispose();
+        voicemode_img.dispose();
+        musicmode_img.dispose();
         back_img.dispose();
         batch.dispose();
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/build/classes/test"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/src/test/resources"/>
+		<excludeFolder url="file://$MODULE_DIR$/.gradle"/>
+		<excludeFolder url="file://$MODULE_DIR$/build"/>
+	</contentEntry>
+	<lib name="Gradle: com.google.gwt:gwt-servlet:2.6.0" scope="RUNTIME"/>
+	<levels>
+		<level name="Gradle: com.badlogicgames.gdx:gdx-backend-gwt:1.5.6" value="project"/>
+		<level name="Gradle: com.badlogicgames.gdx:gdx-backend-gwt:1.5.6:sources" value="project"/>
+		<level name="Gradle: com.badlogicgames.gdx:gdx:1.5.6:sources" value="project"/>
+		<level name="Gradle: com.badlogicgames.gdx:gdx:1.5.6" value="project"/>
+		<level name="Gradle: com.badlogicgames.gdx:gdx-box2d:1.5.6:sources" value="project"/>
+		<level name="Gradle: com.badlogicgames.gdx:gdx-box2d:1.5.6" value="project"/>
+		<level name="Gradle: com.badlogicgames.gdx:gdx-box2d-gwt:1.5.6:sources" value="project"/>
+		<level name="Gradle: com.google.gwt:gwt-user:2.6.1" value="project"/>
+		<level name="Gradle: javax.validation:validation-api:1.0.0.GA" value="project"/>
+		<level name="Gradle: javax.validation:validation-api:1.0.0.GA:sources" value="project"/>
+		<level name="Gradle: org.json:json:20090211" value="project"/>
+		<level name="Gradle: com.google.gwt:gwt-servlet:2.6.0" value="project"/>
+	</levels>
+</component>

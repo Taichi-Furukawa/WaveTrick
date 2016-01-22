@@ -30,6 +30,7 @@ public class RecodingThread extends Thread {
         int cnt = 0;
      while (true){
          audios = mic_recorder.recoding();
+         System.out.println(audios.length);
          double[] doubledata = new double[audios.length];
          for (int i =0;i<audios.length;i++){
              doubledata[i] = (double)audios[i];
@@ -52,5 +53,8 @@ public class RecodingThread extends Thread {
          //System.out.println("max"+max+"index"+index);
 
      }
+    }
+    public void dispose(){
+        
     }
 }

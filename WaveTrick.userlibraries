@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-box2d-platform:1.5.6:natives-desktop">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d-platform/1.5.6/549e142391925ae4d264cfe5602e011875324400/gdx-box2d-platform-1.5.6-natives-desktop.jar" />
+  </library>
+  <library name="Gradle: net.java.jinput:jinput-platform:2.0.5:natives-windows">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/385ee093e01f587f30ee1c8a2ee7d408fd732e16/jinput-platform-2.0.5-natives-windows.jar" />
+  </library>
+  <library name="Gradle: net.java.jinput:jinput:2.0.5">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput/2.0.5/39c7796b469a600f72380316f6b1f11db6c2c7c4/jinput-2.0.5.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx:1.5.6:sources">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.5.6/478a70a74278275ea7a73ae1bf4519c5162ff388/gdx-1.5.6-sources.jar" />
+  </library>
+  <library name="Gradle: net.java.jinput:jinput-platform:2.0.5:natives-osx">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/53f9c919f34d2ca9de8c51fc4e1e8282029a9232/jinput-platform-2.0.5-natives-osx.jar" />
+  </library>
+  <library name="Gradle: org.jcraft:jorbis:0.0.17">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.jcraft/jorbis/0.0.17/8872d22b293e8f5d7d56ff92be966e6dc28ebdc6/jorbis-0.0.17.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-box2d-gwt:1.5.6:sources">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d-gwt/1.5.6/be3709e642efb17632b4bd5dcbf071cc1214b91e/gdx-box2d-gwt-1.5.6-sources.jar" />
+  </library>
+  <library name="Gradle: com.google.gwt:gwt-servlet:2.6.0">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.google.gwt/gwt-servlet/2.6.0/d1e40c23bf78192482ee76c93619a10b4ea649f7/gwt-servlet-2.6.0.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-platform:1.5.6:natives-desktop">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-platform/1.5.6/ff71a24efc6d26cc2f1555834dba17d2889706d/gdx-platform-1.5.6-natives-desktop.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-backend-gwt:1.5.6">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-gwt/1.5.6/a1acf7ef96df5ebb3c7cdf9ff5a6e7dfa7ce353e/gdx-backend-gwt-1.5.6.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.jlayer:jlayer:1.0.1-gdx">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.jlayer/jlayer/1.0.1-gdx/7cca83cec5c1b2f011362f4d85aabd71a73b049d/jlayer-1.0.1-gdx.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-box2d:1.5.6">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d/1.5.6/7587cece665b8bbcc8e02171a77cb47a2bf0b155/gdx-box2d-1.5.6.jar" />
+  </library>
+  <library name="Gradle: org.json:json:20090211">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.json/json/20090211/c183aa3a2a6250293808bba12262c8920ce5a51c/json-20090211.jar" />
+  </library>
+  <library name="Gradle: org.lwjgl.lwjgl:lwjgl:2.9.2">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl/2.9.2/a9d80fe5935c7a9149f6584d9777cfd471f65489/lwjgl-2.9.2.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-box2d:1.5.6:sources">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d/1.5.6/e667552ec80dd2ef72ec51c811694129e870f005/gdx-box2d-1.5.6-sources.jar" />
+  </library>
+  <library name="Gradle: javax.validation:validation-api:1.0.0.GA">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/javax.validation/validation-api/1.0.0.GA/b6bd7f9d78f6fdaa3c37dae18a4bd298915f328e/validation-api-1.0.0.GA.jar" />
+  </library>
+  <library name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-osx">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.2/d55b46b40b40249d627a83a7f7f22649709d70c3/lwjgl-platform-2.9.2-natives-osx.jar" />
+  </library>
+  <library name="Gradle: net.java.jutils:jutils:1.0.0">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/net.java.jutils/jutils/1.0.0/e12fe1fda814bd348c1579329c86943d2cd3c6a6/jutils-1.0.0.jar" />
+  </library>
+  <library name="Gradle: org.lwjgl.lwjgl:lwjgl_util:2.9.2">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl_util/2.9.2/4b9e37300a87799856e0bd15ed81663cdb6b0947/lwjgl_util-2.9.2.jar" />
+  </library>
+  <library name="Gradle: com.google.gwt:gwt-user:2.6.1">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.google.gwt/gwt-user/2.6.1/c078b1b8cc0281214b0eb458d2c283d039374fad/gwt-user-2.6.1.jar" />
+  </library>
+  <library name="Gradle: net.java.jinput:jinput-platform:2.0.5:natives-linux">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput-platform/2.0.5/7ff832a6eb9ab6a767f1ade2b548092d0fa64795/jinput-platform-2.0.5-natives-linux.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-backend-gwt:1.5.6:sources">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-gwt/1.5.6/624b750d736edcfe7942b73497dd0fa9bdb50390/gdx-backend-gwt-1.5.6-sources.jar" />
+  </library>
+  <library name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-windows">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.2/510c7d317f5e9e700b9cfaac5fd38bdebf0702e0/lwjgl-platform-2.9.2-natives-windows.jar" />
+  </library>
+  <library name="Gradle: javax.validation:validation-api:1.0.0.GA:sources">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/javax.validation/validation-api/1.0.0.GA/7a561191db2203550fbfa40d534d4997624cd369/validation-api-1.0.0.GA-sources.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx-backend-lwjgl:1.5.6">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-lwjgl/1.5.6/c6f56429187186deb360018d762d5ade984ea516/gdx-backend-lwjgl-1.5.6.jar" />
+  </library>
+  <library name="Gradle: org.lwjgl.lwjgl:lwjgl-platform:2.9.2:natives-linux">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl-platform/2.9.2/d276cdf61fe2b516c7b7f4aa1b8dea91dbdc8d56/lwjgl-platform-2.9.2-natives-linux.jar" />
+  </library>
+  <library name="Gradle: com.badlogicgames.gdx:gdx:1.5.6">
+    <archive path="/Users/furukawa/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.5.6/93418008f79684e0fbe15d487c82c21b63389f18/gdx-1.5.6.jar" />
+  </library>
+</eclipse-userlibraries>
+

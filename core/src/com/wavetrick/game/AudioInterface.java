@@ -1,7 +1,5 @@
 package com.wavetrick.game;
-import java.io.*;
-import java.awt.*;
-import java.net.URL;
+
 import javax.sound.sampled.*;
 
 /**
@@ -22,34 +20,18 @@ public class AudioInterface {
             //収録開始
             targetdataline.start();
             AudioInputStream linearStream = new AudioInputStream(targetdataline);
-
             linearStream.read(voiceData, 0, voiceData.length);
-            targetdataline.start();
+            targetdataline.stop();
             targetdataline.close();
-            /*
-            File file = new File("rawdata.txt");
-            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-            for (int i=0;i<voiceData.length;i++){
-                pw.println(voiceData[i]);
-            }
-            pw.close();
-            */
-            /*
-            File audioFIle = new File("voice.au");
-            ByteArrayInputStream baiStream = new ByteArrayInputStream(voiceData);
-            AudioInputStream aiStream = new AudioInputStream(baiStream,linear,voiceData.length);
-            AudioSystem.write(aiStream,AudioFileFormat.Type.AU,audioFIle);
-            aiStream.close();
-            baiStream.close();
-            System.out.print("File dekita");
-            */
+            targetdataline = null;
 
         }catch (Exception e){
             e.printStackTrace();
         }
         return voiceData;
     }
+    public static void dispose(){
+
+    }
 
 }
-
- // 消しゴム貸して *_*
