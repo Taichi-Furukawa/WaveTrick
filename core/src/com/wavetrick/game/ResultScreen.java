@@ -61,7 +61,7 @@ public class ResultScreen extends MyScreenAdapter {
         alpha = 0;
 
         TextureRegion[] split = new TextureRegion(title_img).split(690, 125)[0];
-        title = new Animation(0.075f, split[0], split[1], split[2], split[3]);
+        title = new Animation(0.5f, split[0], split[1], split[2], split[3]);
 
         scoreFont = new BitmapFont(Gdx.files.internal("font/hanmaru.fnt"));
         scoreFont.getData().setScale(2f, 2f);
@@ -96,8 +96,8 @@ public class ResultScreen extends MyScreenAdapter {
         scoreFont.setColor(Color.BLACK);
         scoreFont.draw(batch, "" + (len * tp) + " tony point!", (WavetrickGame.LOGICAL_WIDTH / 2)-200, 550);
         return_button.draw(batch);
-        batch.draw(title.getKeyFrame(stateTime, true), (WavetrickGame.LOGICAL_WIDTH / 2) - (690 / 2), 600);
-        if(title.isAnimationFinished(stateTime)){
+        batch.draw(title.getKeyFrame(stateTime, false), (WavetrickGame.LOGICAL_WIDTH / 2) - (690 / 2), 600);
+        if (title.isAnimationFinished(stateTime)){
             stateTime = 0;
         }
         batch.end();

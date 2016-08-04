@@ -500,5 +500,7 @@ public class GameScreen extends MyScreenAdapter {
         kick_sound.dispose();
         jump_sound.dispose();
         landing_sound.dispose();
+        recoThr.dispose();
+
     }
 }

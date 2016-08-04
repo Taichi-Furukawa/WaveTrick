@@ -21,6 +21,7 @@ public class RecodingThread extends Thread {
          mic_recorder = new AudioInterface();
     }
     public static int creation = 0;
+    private boolean running = true;
 
     public void run() {
         byte[] audios;
@@ -28,7 +29,7 @@ public class RecodingThread extends Thread {
         int max = -100;
         int index = 0;
         int cnt = 0;
-     while (true){
+     while (running){
          audios = mic_recorder.recoding();
          System.out.println(audios.length);
          double[] doubledata = new double[audios.length];
@@ -55,6 +56,8 @@ public class RecodingThread extends Thread {
      }
     }
     public void dispose(){
-        
+        running = false;
+        mic_recorder.dispose();
+
     }
 }
